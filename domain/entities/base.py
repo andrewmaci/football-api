@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
-from datetime import datetime
+from datetime import date
 
 class BaseEntity(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    last_changed_date: datetime
+    last_changed_date: date
