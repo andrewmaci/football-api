@@ -10,8 +10,20 @@ dependencies = [
     "pandas>=3.0.1",
     "pyarrow>=23.0.1",
     "pydantic>=2.12.5",
+    "pydantic-settings>=2.13.1",
     "pyright>=1.1.408",
+    "pytest>=9.0.2",
+    "pytest-cov>=6.0",
+    "sqlalchemy>=2.0.48",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+log_file = "tests/test.log"
+log_file_level = "INFO"
+log_cli = true
+log_cli_level = "WARNING"
 
 [tool.pyright]
 venvPath="."
