@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from sqlalchemy import func, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from domain.entities.league import LeagueEntity
 from domain.interfaces.league_repository import LeagueRepository
@@ -39,7 +39,7 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
     def search(
         self,
         league_name: str | None = None,
-        changed_since: datetime | None = None,
+        changed_since: date | None = None,
         pagination: PaginationParams = PaginationParams(),
     ) -> PaginatedResult[LeagueEntity]:
         query = select(League)
@@ -59,9 +59,10 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
 
         rows = (
             self.session.execute(
-                query.offset(pagination.skip).limit(pagination.limit)
+                query.options(joinedload(League.teams)).offset(pagination.skip).limit(pagination.limit)
             )
             .scalars()
+            .unique()
             .all()
         )
 
