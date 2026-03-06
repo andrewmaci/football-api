@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from domain.entities.team import TeamEntity
 from domain.value_objects.pagination import PaginationParams, PaginatedResult
-from datetime import datetime
+from datetime import date
 
 class TeamRepository(ABC):
     @abstractmethod
@@ -15,7 +15,7 @@ class TeamRepository(ABC):
     def search(
         self,
         team_name: str | None = None,
-        changed_since: datetime | None = None,
+        changed_since: date | None = None,
         pagination: PaginationParams = PaginationParams(),
     ) -> PaginatedResult[TeamEntity]: ...
 

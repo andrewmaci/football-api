@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from domain.entities.performance import PerformanceEntity
 from domain.value_objects.pagination import PaginationParams, PaginatedResult
-from datetime import datetime
+from datetime import date
 
 class PerformanceRepository(ABC):
     @abstractmethod
@@ -16,6 +16,6 @@ class PerformanceRepository(ABC):
         self,
         playerid: int | None = None,
         week_number: str | None = None,
-        changed_since: datetime | None = None,
+        changed_since: date | None = None,
         pagination: PaginationParams = PaginationParams(),
     ) -> PaginatedResult[PerformanceEntity]: ...
