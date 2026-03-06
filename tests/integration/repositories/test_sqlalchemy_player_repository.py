@@ -108,6 +108,26 @@ class TestGetAll:
         assert result.total_count == 5
         assert len(result.items) == 2
 
+    def test_returns_all_without_limit(self, db_session):
+        for i in range(25):
+            make_player(db_session, player_id=i + 1, first_name=f"Player{i}")
+        repo = SqlAlchemyPlayerRepository(db_session)
+
+        result = repo.get_all(PaginationParams(limit=None))
+
+        assert result.total_count == 25
+        assert len(result.items) == 25
+
+    def test_returns_all_with_default_pagination(self, db_session):
+        make_player(db_session, player_id=1, first_name="Alice")
+        make_player(db_session, player_id=2, first_name="Bob")
+        repo = SqlAlchemyPlayerRepository(db_session)
+
+        result = repo.get_all()
+
+        assert result.total_count == 2
+        assert len(result.items) == 2
+
 
 class TestSearch:
     def test_returns_all_when_no_filters(self, db_session):
