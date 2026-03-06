@@ -23,7 +23,7 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
             return None
         return LeagueEntity.model_validate(league)
 
-    def get_all(self, pagination: PaginationParams) -> PaginatedResult[LeagueEntity]:
+    def get_all(self, pagination: PaginationParams = PaginationParams()) -> PaginatedResult[LeagueEntity]:
         total = self.get_league_count()
 
         rows = (

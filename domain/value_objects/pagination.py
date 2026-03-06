@@ -6,7 +6,7 @@ T = TypeVar("T")
 @dataclass
 class PaginationParams:
     skip: int = 0
-    limit: int = 20
+    limit: int | None = 20
 
 @dataclass
 class PaginatedResult(Generic[T]):

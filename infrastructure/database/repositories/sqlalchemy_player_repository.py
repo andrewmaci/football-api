@@ -21,7 +21,7 @@ class SqlAlchemyPlayerRepository(PlayerRepository):
            return None
        return PlayerEntity.model_validate(player)
 
-   def get_all(self, pagination: PaginationParams) -> PaginatedResult[PlayerEntity]:
+   def get_all(self, pagination: PaginationParams = PaginationParams()) -> PaginatedResult[PlayerEntity]:
        total = self.get_player_count()
       
        rows = (
