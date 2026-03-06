@@ -1,0 +1,2372 @@
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00025s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00058s] (1, 'Fantasy Football', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id AS league_league_id, league.league_name AS league_league_name, league.scoring_type AS league_scoring_type, league.last_changed_date AS league_last_changed_date 
+FROM league 
+WHERE league.league_id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00060s] (1,)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00022s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00022s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id AS league_league_id, league.league_name AS league_league_name, league.scoring_type AS league_scoring_type, league.last_changed_date AS league_last_changed_date 
+FROM league 
+WHERE league.league_id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00034s] (999,)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00043s] (1, 'Test League', 'Standard', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id AS league_league_id, league.league_name AS league_league_name, league.scoring_type AS league_scoring_type, league.last_changed_date AS league_last_changed_date 
+FROM league 
+WHERE league.league_id = ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00032s] (1,)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00035s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00025s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00049s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00023s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00039s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00029s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00025s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00052s] (1, 'League A', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.002523s ago] (2, 'League B', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00043s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id, league.league_name, league.scoring_type, league.last_changed_date 
+FROM league
+ LIMIT ? OFFSET ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00052s] (20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00039s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00027s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id, league.league_name, league.scoring_type, league.last_changed_date 
+FROM league
+ LIMIT ? OFFSET ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00025s] (20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00030s] (1, 'League 0', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.001893s ago] (2, 'League 1', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.003271s ago] (3, 'League 2', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.00454s ago] (4, 'League 3', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.005608s ago] (5, 'League 4', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00026s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id, league.league_name, league.scoring_type, league.last_changed_date 
+FROM league
+ LIMIT ? OFFSET ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00040s] (2, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00028s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00024s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00022s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00043s] (1, 'League 0', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.002265s ago] (2, 'League 1', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.003534s ago] (3, 'League 2', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.004501s ago] (4, 'League 3', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.005707s ago] (5, 'League 4', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00030s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT league.league_id, league.league_name, league.scoring_type, league.last_changed_date 
+FROM league
+ LIMIT ? OFFSET ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00023s] (10, 3)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00061s] (1, 'Alpha', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.002419s ago] (2, 'Beta', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00023s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00046s] (20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00054s] (1, 'Fantasy Football', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.003122s ago] (2, 'Basketball League', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00052s] ('%Fantasy Football%',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00051s] ('%Fantasy Football%', 20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00077s] (1, 'Fantasy Football', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.002663s ago] (2, 'Fantasy Basketball', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.003941s ago] (3, 'Soccer League', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00034s] ('%Fantasy%',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00042s] ('%Fantasy%', 20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00010s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00029s] (1, 'Fantasy Football', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00041s] ('%fantasy%',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00053s] ('%fantasy%', 20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00017s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00040s] (1, 'Old League', 'PPR', '2023-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.00201s ago] (2, 'New League', 'PPR', '2025-06-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE league.last_changed_date >= ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00043s] ('2024-01-01',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE league.last_changed_date >= ?
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00060s] ('2024-01-01', 20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00021s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00024s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00025s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00023s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00028s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00033s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00106s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00047s] (1, 'Fantasy Old', 'PPR', '2022-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.002681s ago] (2, 'Fantasy New', 'PPR', '2025-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.004188s ago] (3, 'Other New', 'PPR', '2025-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?) AND league.last_changed_date >= ?
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00046s] ('%Fantasy%', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?) AND league.last_changed_date >= ?
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00051s] ('%Fantasy%', '2024-01-01', 20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00018s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00036s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00020s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00065s] (1, 'Football', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00034s] ('%Basketball%',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00041s] ('%Basketball%', 20, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00019s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00035s] (1, 'Fantasy 0', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.001893s ago] (2, 'Fantasy 1', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.0032s ago] (3, 'Fantasy 2', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.004359s ago] (4, 'Fantasy 3', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.00574s ago] (5, 'Fantasy 4', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00032s] ('%Fantasy%',)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT anon_1.league_id, anon_1.league_name, anon_1.scoring_type, anon_1.last_changed_date, team_1.team_id, team_1.league_id AS league_id_1, team_1.team_name, team_1.last_changed_date AS last_changed_date_1 
+FROM (SELECT league.league_id AS league_id, league.league_name AS league_name, league.scoring_type AS scoring_type, league.last_changed_date AS last_changed_date 
+FROM league 
+WHERE lower(league.league_name) LIKE lower(?)
+ LIMIT ? OFFSET ?) AS anon_1 LEFT OUTER JOIN team AS team_1 ON anon_1.league_id = team_1.league_id
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00055s] ('%Fantasy%', 2, 0)
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00010s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00022s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00016s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA temp.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE league (
+	league_id INTEGER NOT NULL, 
+	league_name VARCHAR NOT NULL, 
+	scoring_type VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_league_league_id ON league (league_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE player (
+	player_id INTEGER NOT NULL, 
+	gsis_id VARCHAR, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	position VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_player_player_id ON player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team (
+	team_id INTEGER NOT NULL, 
+	league_id INTEGER NOT NULL, 
+	team_name VARCHAR NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id), 
+	FOREIGN KEY(league_id) REFERENCES league (league_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_team_id ON team (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE performance (
+	performance_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	week_number VARCHAR NOT NULL, 
+	fantasy_points FLOAT NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (performance_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00014s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_performance_performance_id ON performance (performance_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+CREATE TABLE team_player (
+	team_id INTEGER NOT NULL, 
+	player_id INTEGER NOT NULL, 
+	last_changed_date DATE NOT NULL, 
+	PRIMARY KEY (team_id, player_id), 
+	FOREIGN KEY(team_id) REFERENCES team (team_id), 
+	FOREIGN KEY(player_id) REFERENCES player (player_id)
+)
+
+
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00015s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_team_id ON team_player (team_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 CREATE INDEX ix_team_player_player_id ON team_player (player_id)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00032s] (1, 'Test League', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 INSERT INTO league (league_id, league_name, scoring_type, last_changed_date) VALUES (?, ?, ?, ?)
+INFO     sqlalchemy.engine.Engine:base.py:1846 [cached since 0.002115s ago] (2, 'Other', 'PPR', '2024-01-01')
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 SELECT count(*) AS count_1 
+FROM league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [generated in 0.00022s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2713 ROLLBACK
+INFO     sqlalchemy.engine.Engine:base.py:2710 BEGIN (implicit)
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("league")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("team_player")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 PRAGMA main.table_info("performance")
+INFO     sqlalchemy.engine.Engine:base.py:1846 [raw sql] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team_player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE performance
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE team
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00011s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE player
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00013s] ()
+INFO     sqlalchemy.engine.Engine:base.py:1846 
+DROP TABLE league
+INFO     sqlalchemy.engine.Engine:base.py:1846 [no key 0.00012s] ()
+INFO     sqlalchemy.engine.Engine:base.py:2716 COMMIT
