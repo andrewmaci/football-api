@@ -12,7 +12,18 @@ dependencies = [
     "pydantic>=2.12.5",
     "pydantic-settings>=2.13.1",
     "pyright>=1.1.408",
+    "pytest>=9.0.2",
+    "pytest-cov>=6.0",
+    "sqlalchemy>=2.0.48",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+log_file = "tests/test.log"
+log_file_level = "INFO"
+log_cli = true
+log_cli_level = "INFO"
 
 [tool.pyright]
 venvPath="."
