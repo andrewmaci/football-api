@@ -14,6 +14,9 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
     def __init__(self, session: Session):
         self.session = session
 
+    def get_league_count(self) -> int:
+        return self.session.scalar(select(func.count()).select_from(League)) or 0
+
     def get_by_id(self, league_id: int) -> Optional[LeagueEntity]:
         league = self.session.get(League, league_id)
         if league is None:
@@ -21,7 +24,7 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
         return LeagueEntity.model_validate(league)
 
     def get_all(self, pagination: PaginationParams) -> PaginatedResult[LeagueEntity]:
-        total = self.session.scalar(select(func.count()).select_from(League))
+        total = self.get_league_count()
 
         rows = (
             self.session.execute(
@@ -33,7 +36,7 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
 
         return PaginatedResult(
             items=[LeagueEntity.model_validate(r) for r in rows],
-            total_count=total or 0,
+            total_count=total,
         )
 
     def search(
@@ -55,7 +58,7 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
             query = query.where(date_filter)
             count_query = count_query.where(date_filter)
 
-        total = self.session.scalar(count_query)
+        total = self.session.scalar(count_query) or 0
 
         rows = (
             self.session.execute(
@@ -68,8 +71,5 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
 
         return PaginatedResult(
             items=[LeagueEntity.model_validate(r) for r in rows],
-            total_count=total or 0,
+            total_count=total,
         )
-
-    def get_league_count(self) -> int:
-        return self.session.scalar(select(func.count()).select_from(League)) or 0
