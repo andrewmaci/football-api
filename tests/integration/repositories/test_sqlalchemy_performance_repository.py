@@ -1,6 +1,5 @@
 from datetime import date
 
-import pytest
 
 from domain.value_objects.pagination import PaginationParams
 from infrastructure.database.models import Performance, Player
