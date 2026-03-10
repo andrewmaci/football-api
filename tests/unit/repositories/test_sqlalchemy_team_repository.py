@@ -21,22 +21,23 @@ def make_orm_team(
     team.league_id = league_id
     team.team_name = team_name
     team.last_changed_date = last_changed_date
+    team.players = []
     return team
 
 
 class TestGetById:
-    def test_calls_session_get_with_correct_args(self):
+    def test_calls_session_scalar_for_get_by_id(self):
         session = MagicMock()
-        session.get.return_value = make_orm_team()
+        session.scalar.return_value = make_orm_team()
         repo = SqlAlchemyTeamRepository(session)
 
         repo.get_by_id(42)
 
-        session.get.assert_called_once_with(Team, 42)
+        session.scalar.assert_called_once()
 
     def test_returns_entity_when_session_returns_row(self):
         session = MagicMock()
-        session.get.return_value = make_orm_team(team_id=1, team_name="Red Dragons")
+        session.scalar.return_value = make_orm_team(team_id=1, team_name="Red Dragons")
         repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_by_id(1)
@@ -47,7 +48,7 @@ class TestGetById:
 
     def test_returns_none_when_session_returns_none(self):
         session = MagicMock()
-        session.get.return_value = None
+        session.scalar.return_value = None
         repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_by_id(99)
@@ -56,7 +57,7 @@ class TestGetById:
 
     def test_returns_entity_with_correct_league_id(self):
         session = MagicMock()
-        session.get.return_value = make_orm_team(team_id=1, league_id=5)
+        session.scalar.return_value = make_orm_team(team_id=1, league_id=5)
         repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_by_id(1)
