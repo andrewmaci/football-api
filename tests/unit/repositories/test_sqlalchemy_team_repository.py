@@ -4,36 +4,32 @@ from unittest.mock import MagicMock
 import pytest
 
 from domain.value_objects.pagination import PaginatedResult, PaginationParams
-from infrastructure.database.models import Player
-from infrastructure.database.repositories.sqlalchemy_player_repository import (
-    SqlAlchemyPlayerRepository,
+from infrastructure.database.models import Team
+from infrastructure.database.repositories.sqlalchemy_team_repository import (
+    SqlAlchemyTeamRepository,
 )
 
 
-def make_orm_player(
-    player_id: int = 1,
-    gsis_id: str | None = "ABC123",
-    first_name: str = "John",
-    last_name: str = "Doe",
-    position: str = "QB",
+def make_orm_team(
+    team_id: int = 1,
+    league_id: int = 10,
+    team_name: str = "Test Team",
     last_changed_date: date = date(2024, 1, 1),
 ) -> MagicMock:
-    player = MagicMock(spec=Player)
-    player.player_id = player_id
-    player.gsis_id = gsis_id
-    player.first_name = first_name
-    player.last_name = last_name
-    player.position = position
-    player.last_changed_date = last_changed_date
-    player.performances = []
-    return player
+    team = MagicMock(spec=Team)
+    team.team_id = team_id
+    team.league_id = league_id
+    team.team_name = team_name
+    team.last_changed_date = last_changed_date
+    team.players = []
+    return team
 
 
 class TestGetById:
     def test_calls_session_scalar_for_get_by_id(self):
         session = MagicMock()
-        session.scalar.return_value = make_orm_player()
-        repo = SqlAlchemyPlayerRepository(session)
+        session.scalar.return_value = make_orm_team()
+        repo = SqlAlchemyTeamRepository(session)
 
         repo.get_by_id(42)
 
@@ -41,43 +37,42 @@ class TestGetById:
 
     def test_returns_entity_when_session_returns_row(self):
         session = MagicMock()
-        session.scalar.return_value = make_orm_player(player_id=1, first_name="Jane", last_name="Smith")
-        repo = SqlAlchemyPlayerRepository(session)
+        session.scalar.return_value = make_orm_team(team_id=1, team_name="Red Dragons")
+        repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_by_id(1)
 
         assert result is not None
-        assert result.player_id == 1
-        assert result.first_name == "Jane"
-        assert result.last_name == "Smith"
+        assert result.team_id == 1
+        assert result.team_name == "Red Dragons"
 
     def test_returns_none_when_session_returns_none(self):
         session = MagicMock()
         session.scalar.return_value = None
-        repo = SqlAlchemyPlayerRepository(session)
+        repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_by_id(99)
 
         assert result is None
 
-    def test_returns_entity_with_null_gsis_id(self):
+    def test_returns_entity_with_correct_league_id(self):
         session = MagicMock()
-        session.scalar.return_value = make_orm_player(gsis_id=None)
-        repo = SqlAlchemyPlayerRepository(session)
+        session.scalar.return_value = make_orm_team(team_id=1, league_id=5)
+        repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_by_id(1)
 
         assert result is not None
-        assert result.gsis_id is None
+        assert result.league_id == 5
 
 
 class TestGetAll:
     def test_returns_paginated_result_with_items(self):
         session = MagicMock()
-        orm_players = [make_orm_player(player_id=i) for i in range(3)]
+        orm_teams = [make_orm_team(team_id=i) for i in range(3)]
         session.scalar.return_value = 3
-        session.execute.return_value.scalars.return_value.all.return_value = orm_players
-        repo = SqlAlchemyPlayerRepository(session)
+        session.execute.return_value.scalars.return_value.all.return_value = orm_teams
+        repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_all(PaginationParams())
 
@@ -88,7 +83,7 @@ class TestGetAll:
         session = MagicMock()
         session.scalar.return_value = None
         session.execute.return_value.scalars.return_value.all.return_value = []
-        repo = SqlAlchemyPlayerRepository(session)
+        repo = SqlAlchemyTeamRepository(session)
 
         result = repo.get_all(PaginationParams())
 
@@ -99,12 +94,12 @@ class TestGetAll:
 class TestSearch:
     def test_returns_paginated_result(self):
         session = MagicMock()
-        orm_players = [make_orm_player(player_id=1)]
+        orm_teams = [make_orm_team(team_id=1)]
         session.scalar.return_value = 1
-        session.execute.return_value.scalars.return_value.unique.return_value.all.return_value = orm_players
-        repo = SqlAlchemyPlayerRepository(session)
+        session.execute.return_value.scalars.return_value.unique.return_value.all.return_value = orm_teams
+        repo = SqlAlchemyTeamRepository(session)
 
-        result = repo.search(first_name="John")
+        result = repo.search(team_name="Test")
 
         assert result.total_count == 1
         assert len(result.items) == 1
@@ -113,19 +108,19 @@ class TestSearch:
         session = MagicMock()
         session.scalar.return_value = None
         session.execute.return_value.scalars.return_value.unique.return_value.all.return_value = []
-        repo = SqlAlchemyPlayerRepository(session)
+        repo = SqlAlchemyTeamRepository(session)
 
-        result = repo.search(first_name="Nobody")
+        result = repo.search(team_name="Nobody")
 
         assert result.total_count == 0
         assert result.items == []
 
     def test_returns_all_when_no_filters(self):
         session = MagicMock()
-        orm_players = [make_orm_player(player_id=i) for i in range(2)]
+        orm_teams = [make_orm_team(team_id=i) for i in range(2)]
         session.scalar.return_value = 2
-        session.execute.return_value.scalars.return_value.unique.return_value.all.return_value = orm_players
-        repo = SqlAlchemyPlayerRepository(session)
+        session.execute.return_value.scalars.return_value.unique.return_value.all.return_value = orm_teams
+        repo = SqlAlchemyTeamRepository(session)
 
         result = repo.search()
 
@@ -133,17 +128,17 @@ class TestSearch:
         assert len(result.items) == 2
 
 
-class TestGetPlayerCount:
+class TestGetTeamCount:
     def test_returns_scalar_result(self):
         session = MagicMock()
         session.scalar.return_value = 5
-        repo = SqlAlchemyPlayerRepository(session)
+        repo = SqlAlchemyTeamRepository(session)
 
-        assert repo.get_player_count() == 5
+        assert repo.get_team_count() == 5
 
     def test_returns_zero_when_scalar_is_none(self):
         session = MagicMock()
         session.scalar.return_value = None
-        repo = SqlAlchemyPlayerRepository(session)
+        repo = SqlAlchemyTeamRepository(session)
 
-        assert repo.get_player_count() == 0
+        assert repo.get_team_count() == 0
