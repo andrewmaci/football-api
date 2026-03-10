@@ -16,7 +16,11 @@ class SqlAlchemyPlayerRepository(PlayerRepository):
        self.session = session
 
    def get_by_id(self, player_id: int) -> Optional[PlayerEntity]:
-       player = self.session.get(Player,player_id)
+       player = self.session.scalar(
+           select(Player)
+           .options(joinedload(Player.performances))
+           .where(Player.player_id == player_id)
+       )
        if player is None:
            return None
        return PlayerEntity.model_validate(player)
