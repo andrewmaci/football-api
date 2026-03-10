@@ -24,22 +24,23 @@ def make_orm_player(
     player.last_name = last_name
     player.position = position
     player.last_changed_date = last_changed_date
+    player.performances = []
     return player
 
 
 class TestGetById:
-    def test_calls_session_get_with_correct_args(self):
+    def test_calls_session_scalar_for_get_by_id(self):
         session = MagicMock()
-        session.get.return_value = make_orm_player()
+        session.scalar.return_value = make_orm_player()
         repo = SqlAlchemyPlayerRepository(session)
 
         repo.get_by_id(42)
 
-        session.get.assert_called_once_with(Player, 42)
+        session.scalar.assert_called_once()
 
     def test_returns_entity_when_session_returns_row(self):
         session = MagicMock()
-        session.get.return_value = make_orm_player(player_id=1, first_name="Jane", last_name="Smith")
+        session.scalar.return_value = make_orm_player(player_id=1, first_name="Jane", last_name="Smith")
         repo = SqlAlchemyPlayerRepository(session)
 
         result = repo.get_by_id(1)
@@ -51,7 +52,7 @@ class TestGetById:
 
     def test_returns_none_when_session_returns_none(self):
         session = MagicMock()
-        session.get.return_value = None
+        session.scalar.return_value = None
         repo = SqlAlchemyPlayerRepository(session)
 
         result = repo.get_by_id(99)
@@ -60,7 +61,7 @@ class TestGetById:
 
     def test_returns_entity_with_null_gsis_id(self):
         session = MagicMock()
-        session.get.return_value = make_orm_player(gsis_id=None)
+        session.scalar.return_value = make_orm_player(gsis_id=None)
         repo = SqlAlchemyPlayerRepository(session)
 
         result = repo.get_by_id(1)

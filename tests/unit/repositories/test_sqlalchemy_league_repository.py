@@ -20,22 +20,23 @@ def make_orm_league(
     league.league_name = league_name
     league.scoring_type = scoring_type
     league.last_changed_date = last_changed_date
+    league.teams = []
     return league
 
 
 class TestGetById:
-    def test_calls_session_get_with_correct_args(self):
+    def test_calls_session_scalar_for_get_by_id(self):
         session = MagicMock()
-        session.get.return_value = make_orm_league()
+        session.scalar.return_value = make_orm_league()
         repo = SqlAlchemyLeagueRepository(session)
 
         repo.get_by_id(42)
 
-        session.get.assert_called_once_with(League, 42)
+        session.scalar.assert_called_once()
 
     def test_returns_entity_when_session_returns_row(self):
         session = MagicMock()
-        session.get.return_value = make_orm_league(league_id=1, league_name="Fantasy")
+        session.scalar.return_value = make_orm_league(league_id=1, league_name="Fantasy")
         repo = SqlAlchemyLeagueRepository(session)
 
         result = repo.get_by_id(1)
@@ -46,7 +47,7 @@ class TestGetById:
 
     def test_returns_none_when_session_returns_none(self):
         session = MagicMock()
-        session.get.return_value = None
+        session.scalar.return_value = None
         repo = SqlAlchemyLeagueRepository(session)
 
         result = repo.get_by_id(99)
