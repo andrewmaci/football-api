@@ -1,10 +1,9 @@
-from select import select
 from typing import Optional
 from datetime import date
 from domain.value_objects.pagination import *
 
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func,select
+from sqlalchemy import func, select
 from domain.entities.team import TeamEntity
 from domain.interfaces.team_repository import TeamRepository
 from infrastructure.database.models import Team
@@ -70,8 +69,11 @@ class SqlAlchemyTeamRepository(TeamRepository):
 
 
     def get_by_id(self, team_id: int) -> Optional[TeamEntity]:
-        team = self.session.get(Team,team_id)
-
+        team = self.session.scalar(
+            select(Team)
+            .options(joinedload(Team.players))
+            .where(Team.team_id == team_id)
+        )
         if not team:
             return None
         return TeamEntity.model_validate(team)

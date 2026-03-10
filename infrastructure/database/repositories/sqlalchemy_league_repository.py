@@ -18,7 +18,11 @@ class SqlAlchemyLeagueRepository(LeagueRepository):
         return self.session.scalar(select(func.count()).select_from(League)) or 0
 
     def get_by_id(self, league_id: int) -> Optional[LeagueEntity]:
-        league = self.session.get(League, league_id)
+        league = self.session.scalar(
+            select(League)
+            .options(joinedload(League.teams))
+            .where(League.league_id == league_id)
+        )
         if league is None:
             return None
         return LeagueEntity.model_validate(league)
