@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import Optional
 from domain.entities.player import PlayerEntity
 from datetime import date
 from domain.value_objects.pagination import PaginationParams, PaginatedResult
