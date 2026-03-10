@@ -1,9 +1,8 @@
 from datetime import date
-from unittest.mock import MagicMock, call
+from unittest.mock import MagicMock
 
-import pytest
 
-from domain.value_objects.pagination import PaginatedResult, PaginationParams
+from domain.value_objects.pagination import PaginationParams
 from infrastructure.database.models import League
 from infrastructure.database.repositories.sqlalchemy_league_repository import (
     SqlAlchemyLeagueRepository,

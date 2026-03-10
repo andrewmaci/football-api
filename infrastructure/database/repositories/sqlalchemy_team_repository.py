@@ -1,6 +1,6 @@
 from typing import Optional
 from datetime import date
-from domain.value_objects.pagination import *
+from domain.value_objects.pagination import PaginationParams, PaginatedResult
 
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func, select

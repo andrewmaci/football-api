@@ -1,11 +1,11 @@
 
-from sqlalchemy import ReturnsRows, func, select
+from sqlalchemy import func, select
 from typing import Optional
 
 from domain.interfaces.player_repository import PlayerRepository
 from domain.value_objects.pagination import PaginationParams, PaginatedResult
 from domain.entities.player import PlayerEntity
-from infrastructure.database.models import Performance, Player
+from infrastructure.database.models import Player
 
 from sqlalchemy.orm import Session, joinedload
 
